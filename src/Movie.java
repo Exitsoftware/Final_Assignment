@@ -3,13 +3,15 @@ import java.io.Serializable;
 
 public class Movie implements Serializable{
 	String title;
-	String time;
+	int hour;
+	int min;
 	int place;
 	Seat seats;
 	
-	Movie(String title, String time, int place){
+	Movie(String title, int hour, int min, int place){
 		this.title = title;
-		this.time = time;
+		this.hour = hour;
+		this.min = min;
 		this.place = place;
 		this.seats = new Seat(this.place);
 	}
@@ -17,8 +19,17 @@ public class Movie implements Serializable{
 	public String getTitle(){
 		return title;
 	}
-	public String getTime(){
-		return time;
+	public String getStringHour(){
+		return String.valueOf(hour);
+	}
+	public int getHour(){
+		return hour;
+	}
+	public String getStringMin(){
+		return String.valueOf(min);
+	}
+	public int getMin(){
+		return min;
 	}
 	public int getPlace(){
 		return place;
@@ -30,8 +41,17 @@ public class Movie implements Serializable{
 	public void setTitle(String title){
 		this.title = title;
 	}
-	public void setTime(String time){
-		this.time = time;
+	public void setHour(int hour){
+		this.hour = hour;
+	}
+	public void setMin(int min){
+		this.min = min;
+	}
+	public void setHour_String(String hour){
+		this.hour = Integer.parseInt(hour);
+	}
+	public void setMin_String(String min){
+		this.min = Integer.parseInt(min);
 	}
 	public void setPlace(int place){
 		this.place = place;
@@ -41,7 +61,7 @@ public class Movie implements Serializable{
 	}
 	
 	public String toString(){
-		return "제목 : " + getTitle() + " 시간 : " + getTime() + " 상영관 : " + getPlace();
+		return "제목 : " + getTitle() + " 시간 : " + getStringHour() + "시 " + getStringMin() + "분" + " 상영관 : " + getPlace();
 	}
 	
 }

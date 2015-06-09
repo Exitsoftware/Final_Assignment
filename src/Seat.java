@@ -9,8 +9,8 @@ public class Seat implements Serializable{
 	
 	public Seat(int place){
 		this.place = place;
-		this.x = (place + 2) * 10;
-		this.y = (place + 3) * 10;
+		this.x = (place + 2) * 5;
+		this.y = (place + 5);
 		this.seats = new int[x][y];
 	}
 	
@@ -28,6 +28,10 @@ public class Seat implements Serializable{
 	
 	public int getY(){
 		return y;
+	}
+	
+	public int getTotal(){
+		return x*y;
 	}
 	
 	public void setPlace(int place){

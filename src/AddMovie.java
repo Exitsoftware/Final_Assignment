@@ -1,19 +1,41 @@
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class AddMovie extends JFrame {
+	JButton btn_ok = new JButton();
+	JButton btn_cancle = new JButton();
+	JComboBox combo_hour = new JComboBox();
+	JComboBox combo_min = new JComboBox();
+	JComboBox combo_place = new JComboBox();
+	
+	
+	final JTextField input_title = new JTextField();
+	final JTextField input_time = new JTextField();
+	final JTextField input_place = new JTextField();
+	
 	AddMovie() {
+		
+		
+		String[] arr_hour = new String[24];
+		for(int i = 0; i < 24; i++){
+			arr_hour[i] = String.valueOf(i);
+		}
+		String[] arr_min = new String[60];
+		for(int i = 0; i < 60; i++){
+			arr_min[i] = String.valueOf(i);
+		}
+		String[] arr_place = {"1","2","3"};
+		
+		
+		
 		setTitle("영화 추가");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(new GridLayout(4, 2));
@@ -30,77 +52,29 @@ public class AddMovie extends JFrame {
 		label_time.setHorizontalAlignment(getWidth());
 		label_place.setHorizontalAlignment(getWidth());
 
-		final JTextField input_title = new JTextField();
-		final JTextField input_time = new JTextField();
-		final JTextField input_place = new JTextField();
-
+		
+		combo_hour = new JComboBox(arr_hour);
+		combo_min = new JComboBox(arr_min);
+		combo_place = new JComboBox(arr_place);
+		
 		add(label_title);
 		add(input_title);
+		
 		add(label_time);
-		add(input_time);
+		JPanel pan_time = new JPanel(new GridLayout(1,2));
+		pan_time.add(combo_hour);
+		pan_time.add(combo_min);
+		add(pan_time);
+		
+		
 		add(label_place);
-		add(input_place);
+		add(combo_place);
+		
 
-		JButton btn_ok = new JButton();
-		JButton btn_cancle = new JButton();
 
 		btn_ok.setText("OK");
 		btn_cancle.setText("Cancle");
-		btn_ok.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					FileInputStream fis = new FileInputStream("Movielist.dat");
-					ObjectInputStream ois = new ObjectInputStream(fis);
-
-					ArrayList<Movie> movielist = (ArrayList) ois.readObject();
-
-					fis.close();
-					ois.close();
-
-					String title = input_title.getText();
-					String time = input_time.getText();
-					int place = Integer.parseInt(input_place.getText());
-
-					movielist.add(new Movie(title, time, place));
-
-					FileOutputStream fos = new FileOutputStream("Movielist.dat");
-					ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-					oos.writeObject(movielist);
-					oos.reset();
-
-					oos.close();
-					fos.close();
-
-					dispose();
-				} catch (Exception ex) {
-					try {
-						String title = input_title.getText();
-						String time = input_time.getText();
-						int place = Integer.parseInt(input_place.getText());
-
-						ArrayList<Movie> movielist = new ArrayList<Movie>();
-
-						movielist.add(new Movie(title, time, place));
-
-						FileOutputStream fos = new FileOutputStream(
-								"Movielist.dat", true);
-						ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-						oos.writeObject(movielist);
-						oos.reset();
-
-						oos.close();
-						fos.close();
-
-						dispose();
-					} catch (Exception ex2) {
-					}
-				}
-
-			}
-		});
+		
 		btn_cancle.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
