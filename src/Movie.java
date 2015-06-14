@@ -1,7 +1,11 @@
 import java.io.Serializable;
+import java.util.HashSet;
 
 
 public class Movie implements Serializable{
+	
+	HashSet<String> set;
+	
 	String title;
 	int hour;
 	int min;
@@ -14,6 +18,7 @@ public class Movie implements Serializable{
 		this.min = min;
 		this.place = place;
 		this.seats = new Seat(this.place);
+		this.set = new HashSet<String>();
 	}
 	
 	public String getTitle(){
@@ -38,6 +43,10 @@ public class Movie implements Serializable{
 		return seats;
 	}
 	
+	public HashSet<String> getSet(){
+		return set;
+	}
+	
 	public void setTitle(String title){
 		this.title = title;
 	}
@@ -58,6 +67,9 @@ public class Movie implements Serializable{
 	}
 	public void setSeats(Seat seats){
 		this.seats = seats;
+	}
+	public void setSet(HashSet<String> set){
+		this.set = set;
 	}
 	
 	public String toString(){

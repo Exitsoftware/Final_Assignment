@@ -69,25 +69,6 @@ public class EditProfile extends JFrame {
 
 		add(pan_btn, "South");
 
-		btn_ok.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-				String name = input_name.getText();
-				int age = Integer.parseInt(input_age.getText());
-				String email = input_email.getText();
-				
-				user_set.get(user.getId()).setName(name);
-				user_set.get(user.getId()).setAge(age);
-				user_set.get(user.getId()).setEmail(email);
-				
-				save();
-				
-				dispose();
-			}
-		});
 
 		btn_change_pw.addActionListener(new ActionListener() {
 
