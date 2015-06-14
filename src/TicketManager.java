@@ -4,8 +4,13 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,13 +31,14 @@ public class TicketManager extends JFrame{
 	JPanel pan_sub = new JPanel(new GridLayout(4,1));
 	JPanel pan_main = new JPanel(new FlowLayout());
 	
+	HashMap<String, User> user_set = new HashMap<String, User>();
 	
 	Movie movie;
-	User User;
+	User user;
 	TicketManager(Movie m, User u){
 		
 		this.movie = m;
-		this.User = u;
+		this.user = u;
 		
 		final HashSet<String> set = movie.getSet();
 		
@@ -86,12 +92,12 @@ public class TicketManager extends JFrame{
 						
 						if(set.contains(temp.getText())){
 							set.remove(temp.getText());
-							User.buy_list.remove(temp_map);
+							user.buy_list.remove(temp_map);
 							temp.setForeground(Color.RED);
 						}
 						else{
 							set.add(temp.getText());
-							User.buy_list.add(temp_map);
+							user.buy_list.add(temp_map);
 							temp.setForeground(Color.BLUE);
 						}
 						
@@ -106,6 +112,47 @@ public class TicketManager extends JFrame{
 	
 	public Movie getMovie(){
 		return movie;
+	}
+	
+	public void save(){
+		try{
+			FileOutputStream fos = new FileOutputStream("UserSet.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			user_set.put(user.getId(), user);
+			
+			oos.writeObject(user_set);
+			oos.flush();
+			
+			
+			fos.close();
+			oos.close();
+			
+			load();
+		}
+		catch(Exception ex){
+			
+		}
+	}
+	public void load(){
+		try{
+			FileInputStream fis = new FileInputStream("UserSet.dat");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			
+			user_set = (HashMap<String, User>) ois.readObject();
+			
+			Iterator<String> it = user_set.keySet().iterator();
+			while(it.hasNext()){
+				String temp = it.next();
+				System.out.println(temp);
+			}
+			fis.close();
+			ois.close();
+			
+		}
+		catch(Exception ex){
+			
+		}
 	}
 	
 }

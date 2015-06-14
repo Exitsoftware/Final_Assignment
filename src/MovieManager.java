@@ -261,15 +261,16 @@ public class MovieManager extends JFrame {
 				index = table.getSelectedRow();
 				System.out.println(index);
 				if (e.getClickCount() == 2) {
+					
 					Movie temp = movie_list.get(index);
 					final TicketManager ticketManager = new TicketManager(temp, user);
 					ticketManager.setVisible(true);
-					
 					ticketManager.btn_buy.addActionListener(new ActionListener() {
 						
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							// TODO Auto-generated method stub
+							ticketManager.save();
 							ticketManager.dispose();
 							
 							save();
@@ -314,29 +315,6 @@ public class MovieManager extends JFrame {
 		load();
 		user_load();
 		
-		model.setNumRows(0);
-		
-		String[][] row = new String[movie_list.size()][4];
-		String[] col = { "영화제목", "시간", "상영관", "잔여좌석" };
-
-		for (int i = 0; i < movie_list.size(); i++) {
-			Movie temp = movie_list.get(i);
-			String str_hour = temp.getStringHour();
-			String str_min = temp.getStringMin();
-			System.out.println(temp.getTitle());
-			row[i][0] = temp.getTitle();
-			row[i][1] = str_hour + "시 " + str_min + "분";
-			row[i][2] = String.valueOf(temp.getPlace());
-			row[i][3] = String.valueOf(temp.getSeats().getTotal()  - temp.set.size());
-		}
-
-		model = new DefaultTableModel(row, col) {
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-		
-		table.updateUI();
 
 	}
 
@@ -379,25 +357,6 @@ public class MovieManager extends JFrame {
 
 			fis.close();
 			ois.close();
-			
-//			String[][] row = new String[movie_list.size()][4];
-//			String[] col = { "영화제목", "시간", "상영관", "잔여좌석" };
-//
-//			for (int i = 0; i < movie_list.size(); i++) {
-//				Movie temp = movie_list.get(i);
-//				String str_hour = temp.getStringHour();
-//				String str_min = temp.getStringMin();
-//				row[i][0] = temp.getTitle();
-//				row[i][1] = str_hour + "시 " + str_min + "분";
-//				row[i][2] = String.valueOf(temp.getPlace());
-//				row[i][3] = String.valueOf(temp.getSeats().getTotal()  - temp.set.size());
-//			}
-//			
-//			model = new DefaultTableModel(row, col) {
-//				public boolean isCellEditable(int row, int column) {
-//					return false;
-//				}
-//			};
 			
 			model.fireTableDataChanged();
 			table.updateUI();
