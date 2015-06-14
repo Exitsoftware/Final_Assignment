@@ -27,7 +27,7 @@ public class User implements Serializable{
 		this.grade = grades[grade_index];
 		this.email = email;
 		this.sum = 0;
-		this.buy_list = buy_list = new ArrayList<HashMap<String, String>>();
+		this.buy_list = new ArrayList<HashMap<String, String>>();
 		
 	}
 	public String getId(){

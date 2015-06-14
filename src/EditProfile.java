@@ -69,7 +69,6 @@ public class EditProfile extends JFrame {
 
 		add(pan_btn, "South");
 
-
 		btn_change_pw.addActionListener(new ActionListener() {
 
 			@Override
@@ -93,7 +92,7 @@ public class EditProfile extends JFrame {
 
 			oos.close();
 			fos.close();
-			
+
 			load();
 
 		} catch (Exception ex) {
@@ -105,12 +104,12 @@ public class EditProfile extends JFrame {
 		try {
 			FileInputStream fis = new FileInputStream("UserSet.dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			
+
 			user_set = (HashMap<String, User>) ois.readObject();
-			
+
 			ois.close();
 			fis.close();
-			
+
 		} catch (Exception ex) {
 
 		}
