@@ -34,8 +34,9 @@ public class EditProfile extends JFrame {
 	JButton btn_ok = new JButton("확인");
 	JButton btn_change_pw = new JButton("비밀번호 번경");
 
-	EditProfile(final User user) {
-
+	User user;
+	EditProfile(final User u) {
+		this.user = u;
 		load();
 
 		setTitle("프로필 수정");
@@ -74,11 +75,12 @@ public class EditProfile extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				ChangePW changepw = new ChangePW(user);
 
 			}
 		});
 
-		setSize(300, 300);
+		setSize(300, 200);
 		setVisible(true);
 	}
 
@@ -86,7 +88,8 @@ public class EditProfile extends JFrame {
 		try {
 			FileOutputStream fos = new FileOutputStream("UserSet.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-
+			
+			user_set.put(user.getId(), user);
 			oos.writeObject(user_set);
 			oos.flush();
 

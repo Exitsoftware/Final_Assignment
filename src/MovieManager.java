@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class MovieManager extends JFrame {
 	int index;
@@ -100,6 +101,9 @@ public class MovieManager extends JFrame {
 		}
 		
 		table = new JTable(model);
+		table.setAutoCreateRowSorter(true);
+		TableRowSorter sorter = new TableRowSorter(table.getModel());
+		table.setRowSorter(sorter);
 		add(new JScrollPane(table), "Center");
 		add(pan_btn, "East");
 		add(label_id, "North");
