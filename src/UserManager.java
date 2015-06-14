@@ -16,27 +16,7 @@ public class UserManager extends JFrame {
 	UserManager() {
 		// int count = user_set.size();
 		load();
-		String[] col = { "ID", "PW", "이름", "나이", "Email", "등급", "누적 합계" };
-		String[][] row = new String[user_set.size()][col.length];
-		
-		Iterator it = user_set.keySet().iterator();
-		int i = 0;
-		while (it.hasNext()) {
-
-			User temp = user_set.get(it.next());
-			row[i][0] = temp.getId();
-			row[i][1] = temp.getPw();
-			row[i][2] = temp.getName();
-			row[i][3] = String.valueOf(temp.getAge());
-			row[i][4] = temp.getEmail();
-			row[i][5] = temp.getGrade();
-			row[i][6] = String.valueOf(temp.getSum());
-			
-			i++;
-		}
-
-		model = new DefaultTableModel(row,col);
-		
+		add_user();
 		setTitle("유저 관리");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
@@ -65,5 +45,26 @@ public class UserManager extends JFrame {
 		} catch (Exception ex) {
 
 		}
+	}
+	public void add_user(){
+		String[] col = { "ID", "PW", "이름", "나이", "Email", "등급", "누적 합계" };
+		String[][] row = new String[user_set.size()][col.length];
+		
+		Iterator it = user_set.keySet().iterator();
+		int i = 0;
+		while (it.hasNext()) {
+
+			User temp = user_set.get(it.next());
+			row[i][0] = temp.getId();
+			row[i][1] = temp.getPw();
+			row[i][2] = temp.getName();
+			row[i][3] = String.valueOf(temp.getAge());
+			row[i][4] = temp.getEmail();
+			row[i][5] = temp.getGrade();
+			row[i][6] = String.valueOf(temp.getSum());
+			
+			i++;
+		}
+		model = new DefaultTableModel(row,col);
 	}
 }

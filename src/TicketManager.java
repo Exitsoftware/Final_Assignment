@@ -4,13 +4,13 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 
 public class TicketManager extends JFrame{
@@ -28,9 +28,12 @@ public class TicketManager extends JFrame{
 	
 	
 	Movie movie;
-	TicketManager(Movie m){
+	User User;
+	TicketManager(Movie m, User u){
 		
 		this.movie = m;
+		this.User = u;
+		
 		final HashSet<String> set = movie.getSet();
 		
 		setTitle("티켓팅");
@@ -78,13 +81,17 @@ public class TicketManager extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
+						HashMap<String, String> temp_map = new HashMap<String, String>();
+						temp_map.put(movie.getTitle(), temp.getText());
 						
 						if(set.contains(temp.getText())){
 							set.remove(temp.getText());
+							User.buy_list.remove(temp_map);
 							temp.setForeground(Color.RED);
 						}
 						else{
 							set.add(temp.getText());
+							User.buy_list.add(temp_map);
 							temp.setForeground(Color.BLUE);
 						}
 						

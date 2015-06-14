@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class User implements Serializable{
@@ -12,6 +14,8 @@ public class User implements Serializable{
 	String[] grades = {"D", "C", "B", "A"};
 	String email;
 	int sum;
+	ArrayList<HashMap<String, String>> buy_list;
+	
 	
 	User(String id, String pw, String name, int age, String email){
 		
@@ -23,6 +27,7 @@ public class User implements Serializable{
 		this.grade = grades[grade_index];
 		this.email = email;
 		this.sum = 0;
+		this.buy_list = buy_list = new ArrayList<HashMap<String, String>>();
 		
 	}
 	public String getId(){
@@ -49,6 +54,9 @@ public class User implements Serializable{
 	public int getSum(){
 		return sum;
 	}
+	public ArrayList<HashMap<String, String>> getList(){
+		return buy_list;
+	}
 
 	public void setPw(String pw){
 		this.pw = pw;
@@ -68,6 +76,9 @@ public class User implements Serializable{
 	public void setSum(int sum){
 		this.sum = sum;
 	}
+	public void setList(ArrayList<HashMap<String, String>> list){
+		this.buy_list = list;
+	}
 	public void addSum(int add){
 		this.sum += add;
 	}
@@ -77,6 +88,7 @@ public class User implements Serializable{
 		}
 		this.grade = grades[grade_index];
 	}
+	
 	
 	public String toString(){
 		return getName() + " " + String.valueOf(getAge()) + " " + getGrade() + " " + getEmail();

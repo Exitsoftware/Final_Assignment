@@ -41,7 +41,7 @@ public class SearchMovie extends JFrame {
 	String[] col = { "영화제목", "시간", "상영관", "잔여좌석" };
 	String[][] row;
 
-	SearchMovie(final ArrayList<Movie> movie_list) {
+	SearchMovie(final ArrayList<Movie> movie_list, final User user) {
 
 		model = new DefaultTableModel(row, col){
 			public boolean isCellEditable(int row, int column) {
@@ -54,6 +54,7 @@ public class SearchMovie extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
 		label_intro.setHorizontalAlignment(getWidth());
+		
 		pan_north.add(label_intro);
 		pan_north2.add(input_search);
 		pan_north2.add(btn_search);
@@ -62,9 +63,10 @@ public class SearchMovie extends JFrame {
 		bg.add(rbtn_time);
 		bg.add(rbtn_place);
 		bg.add(rbtn_seat);
-
-		pan_north3.add(rbtn_title);
+		
 		rbtn_title.setSelected(true);
+		
+		pan_north3.add(rbtn_title);
 		pan_north3.add(rbtn_time);
 		pan_north3.add(rbtn_place);
 		pan_north3.add(rbtn_seat);
@@ -105,7 +107,7 @@ public class SearchMovie extends JFrame {
 				System.out.println(index);
 				if (e.getClickCount() == 2) {
 					Movie temp = movie_list.get(index);
-					final TicketManager ticketManager = new TicketManager(temp);
+					final TicketManager ticketManager = new TicketManager(temp, user);
 					ticketManager.setVisible(true);
 					dispose();
 					
@@ -174,7 +176,7 @@ public class SearchMovie extends JFrame {
 					}
 
 				} else if (rbtn_place.isSelected()) {
-					for (int i = 0; i <= movie_list.size(); i++) {
+					for (int i = 0; i < movie_list.size(); i++) {
 						Movie temp = movie_list.get(i);
 						try {
 							if (temp.getPlace() == Integer

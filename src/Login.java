@@ -71,27 +71,7 @@ public class Login extends JFrame{
 				id = input_id.getText();
 				pw = input_pw.getText();
 				
-				
-				if(user_set.keySet().contains(id)){
-					if(user_set.get(id).getPw().equals(pw)){
-						label_noti.setText("Success");
-						MovieManager MM = new MovieManager(user_set.get(id));
-						dispose();
-					}
-					else{
-						System.out.println("Wrong Password");
-						label_noti.setText("Wrong Password");
-					}
-				}
-				else{
-					// 아이디가 없을 때
-					
-					label_noti.setText("Create Id");
-					Signup signup = new Signup(id, pw, user_set);
-				
-					
-				}
-
+				set_login(id, pw);
 				
 			}
 		});
@@ -130,7 +110,6 @@ public class Login extends JFrame{
 			
 		}
 	}
-	
 	public void load(){
 		try{
 			FileInputStream fis = new FileInputStream("UserSet.dat");
@@ -157,6 +136,28 @@ public class Login extends JFrame{
 		while(it.hasNext()){
 			String temp = it.next();
 			System.out.println(temp);
+		}
+	}
+	public void set_login(String id, String pw){
+		
+		if(user_set.keySet().contains(id)){
+			if(user_set.get(id).getPw().equals(pw)){
+				label_noti.setText("Success");
+				MovieManager MM = new MovieManager(user_set.get(id));
+				dispose();
+			}
+			else{
+				System.out.println("Wrong Password");
+				label_noti.setText("Wrong Password");
+			}
+		}
+		else{
+			// 아이디가 없을 때
+			
+			label_noti.setText("Create Id");
+			Signup signup = new Signup(id, pw, user_set);
+		
+			
 		}
 	}
 	

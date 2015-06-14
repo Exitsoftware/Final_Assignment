@@ -65,20 +65,7 @@ public class Find extends JFrame{
 				String name = input_name.getText();
 				String email = input_email.getText();
 				
-				if(user_set.keySet().contains(id)){
-					User temp = user_set.get(id);
-					
-					if(name.equals(temp.getName()) && email.equals(temp.getEmail())){
-						status.setText("회원님의 비밀번호는 " + temp.getPw() + " 입니다.");
-					}
-					else{
-						status.setText("아이디와 정보가 일치하지 않습니다.");
-					}
-				}
-				else{
-					status.setText("일치하는 아이디가 없습니다.");
-				}
-				
+				find_pw(id, name, email);
 			}
 		});
 		
@@ -87,5 +74,19 @@ public class Find extends JFrame{
 		setSize(300,300);
 		setVisible(true);
 	}
-
+	public void find_pw(String id, String name, String email){
+		if(user_set.keySet().contains(id)){
+			User temp = user_set.get(id);
+			
+			if(name.equals(temp.getName()) && email.equals(temp.getEmail())){
+				status.setText("회원님의 비밀번호는 " + temp.getPw() + " 입니다.");
+			}
+			else{
+				status.setText("아이디와 정보가 일치하지 않습니다.");
+			}
+		}
+		else{
+			status.setText("일치하는 아이디가 없습니다.");
+		}
+	}
 }
