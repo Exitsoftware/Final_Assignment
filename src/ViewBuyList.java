@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class ViewBuyList extends JFrame {
 	HashMap<String, User> user_set = new HashMap<String, User>();
@@ -20,9 +21,12 @@ public class ViewBuyList extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
 		JTable table = new JTable(model);
-
+		table.setAutoCreateRowSorter(true);
+		TableRowSorter sorter = new TableRowSorter(table.getModel());
+		table.setRowSorter(sorter);
+		
 		add(new JScrollPane(table));
-		setSize(1000, 800);
+		setSize(500, 300);
 		setVisible(true);
 	}
 
