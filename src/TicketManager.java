@@ -54,6 +54,8 @@ public class TicketManager extends JFrame {
 		else if (movie.getPlace() == 3){
 			setSize(1120,620);
 		}
+		super.setResizable(false);
+		
 		Seat s = movie.getSeats();
 		int[][] seats = s.getSeats();
 
