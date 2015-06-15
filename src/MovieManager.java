@@ -33,7 +33,7 @@ public class MovieManager extends JFrame {
 	String[] titles;
 	JList listview = new JList();
 
-	JPanel pan_btn = new JPanel(new GridLayout(7, 1));
+	JPanel pan_btn = new JPanel(new GridLayout(6, 1));
 	JLabel label_id;
 
 	JButton btn_AddMoive = new JButton("영화 추가");
@@ -42,12 +42,13 @@ public class MovieManager extends JFrame {
 	JButton btn_EditProfile = new JButton("내 정보 수정");
 	JButton btn_ViewUserManager = new JButton("유저 관리");
 	JButton btn_ViewBuy = new JButton("예매 내역");
-	JButton btn_refresh = new JButton("새로고침");
-	final JTable table;
+	JTable table;
 
 	DefaultTableModel model;
 	User user;
-
+	
+	String[][] row;
+	String[] col = {"영화제목", "시간", "상영관", "잔여좌석"};
 	MovieManager(User u) {
 		user = u;
 
@@ -56,9 +57,8 @@ public class MovieManager extends JFrame {
 		}
 
 		load();
-		
-		String[][] row = new String[movie_list.size()][4];
-		String[] col = { "영화제목", "시간", "상영관", "잔여좌석" };
+
+		row = new String[movie_list.size()][4];
 
 		for (int i = 0; i < movie_list.size(); i++) {
 			Movie temp = movie_list.get(i);
@@ -67,9 +67,10 @@ public class MovieManager extends JFrame {
 			row[i][0] = temp.getTitle();
 			row[i][1] = str_hour + "시 " + str_min + "분";
 			row[i][2] = String.valueOf(temp.getPlace());
-			row[i][3] = String.valueOf(temp.getSeats().getTotal()  - temp.set.size());
+			row[i][3] = String.valueOf(temp.getSeats().getTotal()
+					- temp.set.size());
 		}
-		
+
 		model = new DefaultTableModel(row, col) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -80,26 +81,22 @@ public class MovieManager extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 
-		
 		label_id = new JLabel("안녕하세요 " + user.getName() + "님");
 		label_id.setHorizontalAlignment(getWidth());
-		
+
 		if (!is_manager) {
 			pan_btn.add(btn_SearchMovie);
 			pan_btn.add(btn_EditProfile);
 			pan_btn.add(btn_ViewBuy);
-			pan_btn.add(btn_refresh);
-		}
-		else{
+		} else {
 			pan_btn.add(btn_AddMoive);
 			pan_btn.add(btn_RemoveMovie);
 			pan_btn.add(btn_SearchMovie);
 			pan_btn.add(btn_EditProfile);
 			pan_btn.add(btn_ViewUserManager);
 			pan_btn.add(btn_ViewBuy);
-			pan_btn.add(btn_refresh);
 		}
-		
+
 		table = new JTable(model);
 		table.setAutoCreateRowSorter(true);
 		TableRowSorter sorter = new TableRowSorter(table.getModel());
@@ -107,16 +104,16 @@ public class MovieManager extends JFrame {
 		add(new JScrollPane(table), "Center");
 		add(pan_btn, "East");
 		add(label_id, "North");
-		
+
 		btn_ViewBuy.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				ViewBuyList viewbuylist = new ViewBuyList(user);
 			}
 		});
-		
+
 		btn_AddMoive.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -136,7 +133,7 @@ public class MovieManager extends JFrame {
 
 							fis.close();
 							ois.close();
-							
+
 							String title = add.input_title.getText();
 							String time = add.input_time.getText();
 							int hour = Integer.parseInt((String) add.combo_hour
@@ -147,20 +144,18 @@ public class MovieManager extends JFrame {
 									.parseInt((String) add.combo_place
 											.getSelectedItem());
 
-							
 							movie_list.add(new Movie(title, hour, min, place));
 
 							save();
 							add.dispose();
-							
+
 							Movie temp = movie_list.get(movie_list.size() - 1);
 
 							model.addRow(new String[] { title,
 									hour + "시 " + min + "분",
 									String.valueOf(place),
 									String.valueOf(temp.getSeats().getTotal()) });
-							
-							
+
 							table.repaint();
 							load();
 
@@ -217,14 +212,12 @@ public class MovieManager extends JFrame {
 								.getText());
 						String email = edit_profile.input_email.getText();
 
+						user.setName(name);
+						user.setAge(age);
+						user.setEmail(email);
 
-						edit_profile.user_set.get(user.getId()).setName(name);
-						edit_profile.user_set.get(user.getId()).setAge(age);
-						edit_profile.user_set.get(user.getId()).setEmail(email);
-
-						edit_profile.save();
+						user_save();
 						edit_profile.dispose();
-
 						user_load();
 
 					}
@@ -265,22 +258,24 @@ public class MovieManager extends JFrame {
 				index = table.getSelectedRow();
 				System.out.println(index);
 				if (e.getClickCount() == 2) {
-					
+
 					Movie temp = movie_list.get(index);
-					final TicketManager ticketManager = new TicketManager(temp, user);
+					final TicketManager ticketManager = new TicketManager(temp,
+							user);
 					ticketManager.setVisible(true);
-					ticketManager.btn_buy.addActionListener(new ActionListener() {
-						
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							// TODO Auto-generated method stub
-							ticketManager.save();
-							ticketManager.dispose();
-							
-							save();
-							load();
-						}
-					});
+					ticketManager.btn_buy
+							.addActionListener(new ActionListener() {
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									// TODO Auto-generated method stub
+									ticketManager.save();
+									ticketManager.dispose();
+
+									save();
+									load();
+								}
+							});
 				}
 
 			}
@@ -302,15 +297,7 @@ public class MovieManager extends JFrame {
 				SearchMovie searchmovie = new SearchMovie(movie_list, user);
 			}
 		});
-		
-		btn_refresh.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				refresh();
-			}
-		});
+
 		setSize(800, 300);
 		setVisible(true);
 	}
@@ -318,9 +305,28 @@ public class MovieManager extends JFrame {
 	public void refresh() {
 		load();
 		user_load();
-		
 
 	}
+	
+	public void user_save() {
+		try {
+			FileOutputStream fos = new FileOutputStream("UserSet.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			user_set.put(user.getId(), user);
+			oos.writeObject(user_set);
+			oos.flush();
+
+			oos.close();
+			fos.close();
+
+			load();
+
+		} catch (Exception ex) {
+		}
+
+	}
+
 
 	public void user_load() {
 		try {
@@ -358,10 +364,34 @@ public class MovieManager extends JFrame {
 				System.out.println(temp.toString());
 			}
 			
+			row = new String[movie_list.size()][4];
 
+			for (int i = 0; i < movie_list.size(); i++) {
+				Movie temp = movie_list.get(i);
+				String str_hour = temp.getStringHour();
+				String str_min = temp.getStringMin();
+				row[i][0] = temp.getTitle();
+				row[i][1] = str_hour + "시 " + str_min + "분";
+				row[i][2] = String.valueOf(temp.getPlace());
+				row[i][3] = String.valueOf(temp.getSeats().getTotal()
+						- temp.set.size());
+			}
+			
+			model = new DefaultTableModel(row, col) {
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+//			table = new JTable(model)
+			table.setModel(model);;
+			
+			model.fireTableDataChanged();
+			
+			
+			
 			fis.close();
 			ois.close();
-			
+
 			model.fireTableDataChanged();
 			table.updateUI();
 			System.out.println("refesh");

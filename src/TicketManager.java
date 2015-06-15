@@ -92,11 +92,32 @@ public class TicketManager extends JFrame{
 						
 						if(set.contains(temp.getText())){
 							set.remove(temp.getText());
+							user.minusSum(1);
 							user.buy_list.remove(temp_map);
+							if(user.getSum() < 10 && user.getGrade().equals("C")){
+								user.gradeDown();
+							}
+							else if(user.getSum() < 30 && user.getGrade().equals("B")){
+								user.gradeDown();
+							}
+							else if(user.getSum() < 50 && user.getGrade().equals("A")){
+								user.gradeDown();
+							}
 							temp.setForeground(Color.RED);
 						}
 						else{
 							set.add(temp.getText());
+							user.addSum(1);
+							if(user.getSum() >= 10 && user.getGrade_index() < 1){
+								user.gradeUp();
+							}
+							else if(user.getSum() >= 30 && user.getGrade_index() < 2){
+								user.gradeUp();
+							}
+							else if(user.getSum() >= 50 && user.getGrade_index() < 3){
+								user.gradeUp();
+							}
+							
 							user.buy_list.add(temp_map);
 							temp.setForeground(Color.BLUE);
 						}

@@ -70,6 +70,7 @@ public class EditProfile extends JFrame {
 
 		add(pan_btn, "South");
 
+		
 		btn_change_pw.addActionListener(new ActionListener() {
 
 			@Override

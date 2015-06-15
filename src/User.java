@@ -82,9 +82,18 @@ public class User implements Serializable{
 	public void addSum(int add){
 		this.sum += add;
 	}
+	public void minusSum(int num){
+		this.sum -= num;
+	}
 	public void gradeUp(){
 		if(this.grade_index < 3){
 			this.grade_index++;
+		}
+		this.grade = grades[grade_index];
+	}
+	public void gradeDown(){
+		if(this.grade_index > 0){
+			this.grade_index--;
 		}
 		this.grade = grades[grade_index];
 	}

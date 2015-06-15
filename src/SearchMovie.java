@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class SearchMovie extends JFrame {
 	int index;
@@ -48,8 +49,12 @@ public class SearchMovie extends JFrame {
 				return false;
 			}
 		};
+		
 		table = new JTable(model);
-
+		table.setAutoCreateRowSorter(true);
+		TableRowSorter sorter = new TableRowSorter(table.getModel());
+		table.setRowSorter(sorter);
+		
 		setTitle("영화 검색");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
