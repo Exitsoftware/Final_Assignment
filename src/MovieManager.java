@@ -218,8 +218,10 @@ public class MovieManager extends JFrame {
 						
 						user_set.put(user.getId(), user);
 
-						user_save();
+						edit_profile.save();
 						edit_profile.dispose();
+						edit_profile.load();
+						
 						user_load();
 
 					}
