@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class AddMovie extends JFrame {
+	
 	JButton btn_ok = new JButton();
 	JButton btn_cancle = new JButton();
 	JComboBox combo_hour = new JComboBox();

@@ -215,6 +215,8 @@ public class MovieManager extends JFrame {
 						user.setName(name);
 						user.setAge(age);
 						user.setEmail(email);
+						
+						user_set.put(user.getId(), user);
 
 						user_save();
 						edit_profile.dispose();
@@ -313,7 +315,7 @@ public class MovieManager extends JFrame {
 			FileOutputStream fos = new FileOutputStream("UserSet.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			
-			user_set.put(user.getId(), user);
+//			this.user_set.put(user.getId(), user);
 			oos.writeObject(user_set);
 			oos.flush();
 
@@ -332,8 +334,8 @@ public class MovieManager extends JFrame {
 		try {
 			FileInputStream fis = new FileInputStream("UserSet.dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
-
-			user_set = (HashMap<String, User>) ois.readObject();
+			
+			this.user_set = (HashMap<String, User>) ois.readObject();
 
 			user = user_set.get(user.getId());
 

@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -89,14 +90,26 @@ public class EditProfile extends JFrame {
 		try {
 			FileOutputStream fos = new FileOutputStream("UserSet.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			System.out.println("save");
+			Iterator it = user_set.keySet().iterator();
+			while(it.hasNext()){
+				System.out.println(it.next());
+			}
+
 			
 			user_set.put(user.getId(), user);
+			
 			oos.writeObject(user_set);
 			oos.flush();
 
 			oos.close();
 			fos.close();
-
+			
+			System.out.println("save after");
+			it = user_set.keySet().iterator();
+			while(it.hasNext()){
+				System.out.println(it.next());
+			}
 			load();
 
 		} catch (Exception ex) {
@@ -110,6 +123,10 @@ public class EditProfile extends JFrame {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 
 			user_set = (HashMap<String, User>) ois.readObject();
+			Iterator it = user_set.keySet().iterator();
+			while(it.hasNext()){
+				System.out.println(it.next());
+			}
 
 			ois.close();
 			fis.close();

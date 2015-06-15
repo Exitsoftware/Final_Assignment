@@ -25,6 +25,7 @@ public class ChangePW extends JFrame{
 	
 	JButton btn_submit = new JButton("확인");
 	User user;
+	
 	ChangePW(User u){
 		this.user = u;
 		setTitle("비밀번호 변경");
