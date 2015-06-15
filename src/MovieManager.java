@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -46,9 +47,10 @@ public class MovieManager extends JFrame {
 
 	DefaultTableModel model;
 	User user;
-	
+
 	String[][] row;
-	String[] col = {"영화제목", "시간", "상영관", "잔여좌석"};
+	String[] col = { "영화제목", "시간", "상영관", "잔여좌석" };
+
 	MovieManager(User u) {
 		user = u;
 
@@ -206,23 +208,28 @@ public class MovieManager extends JFrame {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						try {
+							String name = edit_profile.input_name.getText();
+							int age = Integer.parseInt(edit_profile.input_age
+									.getText());
+							String email = edit_profile.input_email.getText();
 
-						String name = edit_profile.input_name.getText();
-						int age = Integer.parseInt(edit_profile.input_age
-								.getText());
-						String email = edit_profile.input_email.getText();
+							user.setName(name);
+							user.setAge(age);
+							user.setEmail(email);
 
-						user.setName(name);
-						user.setAge(age);
-						user.setEmail(email);
-						
-						user_set.put(user.getId(), user);
+							user_set.put(user.getId(), user);
 
-						edit_profile.save();
-						edit_profile.dispose();
-						edit_profile.load();
-						
-						user_load();
+							edit_profile.save();
+							edit_profile.dispose();
+							edit_profile.load();
+
+							user_load();
+						} catch (Exception ex) {
+							JOptionPane.showMessageDialog(null,
+									"입력 데이터 값이 잘못되었습니다.", "데이터 입력 오류",
+									JOptionPane.ERROR_MESSAGE);
+						}
 
 					}
 				});
@@ -311,13 +318,13 @@ public class MovieManager extends JFrame {
 		user_load();
 
 	}
-	
+
 	public void user_save() {
 		try {
 			FileOutputStream fos = new FileOutputStream("UserSet.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			
-//			this.user_set.put(user.getId(), user);
+
+			// this.user_set.put(user.getId(), user);
 			oos.writeObject(user_set);
 			oos.flush();
 
@@ -331,12 +338,11 @@ public class MovieManager extends JFrame {
 
 	}
 
-
 	public void user_load() {
 		try {
 			FileInputStream fis = new FileInputStream("UserSet.dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			
+
 			this.user_set = (HashMap<String, User>) ois.readObject();
 
 			user = user_set.get(user.getId());
@@ -367,7 +373,7 @@ public class MovieManager extends JFrame {
 				titles[i] = temp.getTitle();
 				System.out.println(temp.toString());
 			}
-			
+
 			row = new String[movie_list.size()][4];
 
 			for (int i = 0; i < movie_list.size(); i++) {
@@ -380,19 +386,18 @@ public class MovieManager extends JFrame {
 				row[i][3] = String.valueOf(temp.getSeats().getTotal()
 						- temp.set.size());
 			}
-			
+
 			model = new DefaultTableModel(row, col) {
 				public boolean isCellEditable(int row, int column) {
 					return false;
 				}
 			};
-//			table = new JTable(model)
-			table.setModel(model);;
-			
+			// table = new JTable(model)
+			table.setModel(model);
+			;
+
 			model.fireTableDataChanged();
-			
-			
-			
+
 			fis.close();
 			ois.close();
 
@@ -416,7 +421,7 @@ public class MovieManager extends JFrame {
 			oos.close();
 			fos.close();
 			load();
-			
+
 		} catch (Exception ex) {
 
 		}

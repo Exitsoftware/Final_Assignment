@@ -11,26 +11,27 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class Signup extends JFrame {
-//	ArrayList<User> user_list = new ArrayList<User>();
+	// ArrayList<User> user_list = new ArrayList<User>();
 	HashMap<String, User> user_set = new HashMap<String, User>();
-	
+
 	JTextField input_name;
 	JTextField input_age;
 	JTextField input_email;
-	
+
 	String id;
 	String pw;
-	
+
 	Signup(final String id, final String pw, final HashMap<String, User> set) {
-		
+
 		this.id = id;
 		this.pw = pw;
 		this.user_set = set;
-		
+
 		load();
 		setTitle("회원가입");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -73,15 +74,20 @@ public class Signup extends JFrame {
 		btn_ok.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String name = input_name.getText();
-				int age = Integer.valueOf(input_age.getText());
-				String email = input_email.getText();
-				
-				user_set.put(id ,new User(id, pw, name, age, email));
-				
-				save();
-				
-				dispose();
+				try {
+					String name = input_name.getText();
+					int age = Integer.valueOf(input_age.getText());
+					String email = input_email.getText();
+
+					user_set.put(id, new User(id, pw, name, age, email));
+
+					save();
+
+					dispose();
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "입력 데이터 값이 잘못되었습니다.",
+							"데이터 입력 오류", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 
@@ -123,13 +129,12 @@ public class Signup extends JFrame {
 
 			fos.close();
 			oos.close();
-//			load();
-			
+			// load();
+
 		} catch (Exception ex) {
 
 		}
 
 	}
-	
 
 }
