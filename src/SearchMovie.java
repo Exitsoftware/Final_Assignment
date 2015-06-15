@@ -20,7 +20,7 @@ import javax.swing.table.TableRowSorter;
 
 public class SearchMovie extends JFrame {
 	int index;
-	
+
 	JLabel label_intro = new JLabel("검색 값을 입력해주세요.");
 	JButton btn_search = new JButton("검색");
 	JPanel pan_north = new JPanel(new GridLayout(3, 1));
@@ -44,22 +44,22 @@ public class SearchMovie extends JFrame {
 
 	SearchMovie(final ArrayList<Movie> movie_list, final User user) {
 
-		model = new DefaultTableModel(row, col){
+		model = new DefaultTableModel(row, col) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
-		
+
 		table = new JTable(model);
 		table.setAutoCreateRowSorter(true);
 		TableRowSorter sorter = new TableRowSorter(table.getModel());
 		table.setRowSorter(sorter);
-		
+
 		setTitle("영화 검색");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
 		label_intro.setHorizontalAlignment(getWidth());
-		
+
 		pan_north.add(label_intro);
 		pan_north2.add(input_search);
 		pan_north2.add(btn_search);
@@ -68,9 +68,9 @@ public class SearchMovie extends JFrame {
 		bg.add(rbtn_time);
 		bg.add(rbtn_place);
 		bg.add(rbtn_seat);
-		
+
 		rbtn_title.setSelected(true);
-		
+
 		pan_north3.add(rbtn_title);
 		pan_north3.add(rbtn_time);
 		pan_north3.add(rbtn_place);
@@ -79,65 +79,65 @@ public class SearchMovie extends JFrame {
 
 		add(pan_north, "North");
 		add(new JScrollPane(table), "Center");
-		
+
 		table.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				index = table.getSelectedRow();
 				System.out.println(index);
 				if (e.getClickCount() == 2) {
 					Movie temp = movie_list.get(index);
-					final TicketManager ticketManager = new TicketManager(temp, user);
+					final TicketManager ticketManager = new TicketManager(temp,
+							user);
 					ticketManager.setVisible(true);
 					dispose();
-					
-					ticketManager.btn_buy.addActionListener(new ActionListener() {
-						
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							// TODO Auto-generated method stub
-							ticketManager.dispose();
-						}
-					});
-				}
-				
 
-				
+					ticketManager.btn_buy
+							.addActionListener(new ActionListener() {
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									// TODO Auto-generated method stub
+									ticketManager.dispose();
+								}
+							});
+				}
+
 			}
 		});
-		
+
 		btn_search.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String search_value = input_search.getText();
-				
+
 				// jtable 초기화
 				model.setNumRows(0);
 				if (rbtn_title.isSelected()) {
@@ -150,10 +150,12 @@ public class SearchMovie extends JFrame {
 							String min = temp.getStringMin();
 							int place = temp.getPlace();
 
-							model.addRow(new String[] { title,
+							model.addRow(new String[] {
+									title,
 									hour + "시 " + min + "분",
 									String.valueOf(place),
-									String.valueOf(temp.getSeats().getTotal() - temp.set.size())  });
+									String.valueOf(temp.getSeats().getTotal()
+											- temp.set.size()) });
 						}
 					}
 
@@ -209,7 +211,7 @@ public class SearchMovie extends JFrame {
 							Movie temp = movie_list.get(i);
 							Seat temp_seat = temp.getSeats();
 
-							if (temp_seat.getTotal() >= Integer
+							if (temp_seat.getTotal() - temp.set.size() >= Integer
 									.parseInt(search_value)) {
 								String title = temp.getTitle();
 								String hour = temp.getStringHour();
